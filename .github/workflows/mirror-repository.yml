@@ -9,6 +9,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Test
+        run: echo "Test ${{ secrets.GIT_USERNAME }} }}"
+
       - name: Push to Mirror Repository
         uses: yesolutions/mirror-action@master
         with:
