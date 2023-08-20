@@ -1,0 +1,25 @@
+name: Mirror Repository
+on: [push, workflow_dispatch]
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Push to Mirror Repository
+        uses: yesolutions/mirror-action@master
+        with:
+          REMOTE: 'https://github.com/LanCoCafe/lava.git'
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+
+      - name: Force Push to Mirror Repository
+        uses: yesolutions/mirror-action@master
+        if: ${{ failure() }}
+        with:
+          REMOTE: 'https://github.com/LanCoCafe/lava.git'
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+          GIT_PUSH_ARGS: --force
